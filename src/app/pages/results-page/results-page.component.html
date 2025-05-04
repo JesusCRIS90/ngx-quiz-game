@@ -1,0 +1,25 @@
+<bee-center-layout>
+  <bee-vertical-layout>
+    <h1>Your Scores</h1>
+
+    <div>
+      <bee-grid-1d-layout
+        [inputGridDistribution]="'1fr 1fr'"
+        [gap]="10"
+        [policyPos]="GRID_POLICY.CENTER_LEFT"
+      >
+        <span>Points: 1</span>
+        <span>Total Points: 100</span>
+        <span>Wrong Answers: 1</span>
+        <span>Success Answers: 1</span>
+      </bee-grid-1d-layout>
+    </div>
+
+    <div>
+      <bee-pair-layout [gap]="20">
+        <button>New Game</button>
+        <button>Repeat</button>
+      </bee-pair-layout>
+    </div>
+  </bee-vertical-layout>
+</bee-center-layout>

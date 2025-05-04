@@ -1,0 +1,13 @@
+/* You can add global styles to this file, and also import other style files */
+@import './app/assets/styles/components/switchable-icon.css';
+@import './app/assets/styles/components/switchable-text.css';
+@import './app/assets/styles/components/timer.css';
+
+@import './app/assets/styles/pages/quiz-game-page.css';
+
+html,
+body {
+background-color: #c7c7c7;
+  margin: 0;
+  padding: 0;
+}

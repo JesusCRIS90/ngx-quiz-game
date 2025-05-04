@@ -1,0 +1,5 @@
+<div [ngClass]="{'active-state': isActive() }" (click)="updateSwitchState()">
+  <bee-vertical-layout [gap]="5">
+    <h1>{{ getText() }}</h1>
+  </bee-vertical-layout>
+</div>

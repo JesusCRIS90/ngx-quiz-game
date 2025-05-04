@@ -1,0 +1,6 @@
+<div [ngClass]="{'active-state': isActive() }" (click)="updateSwitchState()" class="container">
+  <bee-vertical-layout [gap]="5">
+    <bee-image [imageSrc]="getImage()" />
+    <h1>{{ getName() }}</h1>
+  </bee-vertical-layout>
+</div>

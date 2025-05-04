@@ -1,0 +1,54 @@
+@if ( loadedData() ) {
+
+    <bee-fixed-width-layout [width]="900">
+
+        <div>
+            
+            <h1>Category</h1>
+            
+            <bee-grid-1d-layout [inputGridDistribution]="'1fr 1fr 1fr 1fr 1fr 1fr'" [gap]="10">
+                @for (category of getCategories(); track $index) {
+                    <switchable-icon class="switchable-icon" [iconInfo]='getIconInfo( category )' />
+                    }
+                </bee-grid-1d-layout>
+                
+                <bee-grid-1d-layout [inputGridDistribution]="'60% auto'">
+                    
+                    <bee-vertical-layout>
+                        <h1>Difficulty</h1>
+                        <bee-horizontal-layout [gap]="20">
+                            @for (difficulty of getDifficulties(); track $index) {
+                                <switchable-text class="switchable-text" [text]="difficulty"/>
+                            }
+                        </bee-horizontal-layout>
+                    </bee-vertical-layout>
+                    
+                    <bee-vertical-layout>
+                        <h1>Type</h1>
+                        <bee-horizontal-layout [gap]="20">
+                            @for (type of getTypes(); track $index) {
+                                <switchable-text class="switchable-text" [text]="type"/>
+                            }
+                         </bee-horizontal-layout>
+                    </bee-vertical-layout>
+                
+                </bee-grid-1d-layout>
+
+                <bee-vertical-layout>
+                    <button [disabled]="disableBtn()" (click)="getQuizQuestions()" >Start</button>
+                </bee-vertical-layout>
+
+        </div>
+
+    </bee-fixed-width-layout>
+
+
+} @else {
+
+    <p>Error Loading Data from Storage</p>
+
+}
+
+
+
+

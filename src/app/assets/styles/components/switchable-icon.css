@@ -1,0 +1,24 @@
+.switchable-icon {
+  .active-state {
+    background-color: rgb(0, 124, 146);
+  }
+
+  div {
+    display: inline-block;
+    padding: 15px 15px;
+    background-color: aliceblue;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  img {
+    width:40px;
+  }
+  h1 {
+    margin: 0rem;
+    padding: 0rem;
+    font-size: 16px;
+
+    font-weight: 300;
+  }
+}

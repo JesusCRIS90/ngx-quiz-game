@@ -1,0 +1,105 @@
+{
+    "selectionPage":{
+        "rootPath": "assets/categories",
+        "categories":[
+            {
+                "icon": "books",
+                "name": "Books"
+            },
+            {
+                "icon": "films",
+                "name": "Films"
+            },
+            {
+                "icon": "music",
+                "name": "Music"
+            },
+            {
+                "icon": "musicals",
+                "name": "Musicals"
+            },
+            {
+                "icon": "television",
+                "name": "Television"
+            },
+            {
+                "icon": "videogames",
+                "name": "Videogames"
+            },
+            {
+                "icon": "boardgames",
+                "name": "Boardgames"
+            },
+            {
+                "icon": "science",
+                "name": "Science"
+            },
+            {
+                "icon": "computers",
+                "name": "Computers"
+            },
+            {
+                "icon": "math",
+                "name": "Maths"
+            },
+            {
+                "icon": "mythology",
+                "name": "Mythology"
+            },
+            {
+                "icon": "sports",
+                "name": "Sports"
+            },
+            {
+                "icon": "geography",
+                "name": "Geography"
+            },
+            {
+                "icon": "history",
+                "name": "History"
+            },
+            {
+                "icon": "politics",
+                "name": "Politics"
+            },
+            {
+                "icon": "art",
+                "name": "Art"
+            },
+            {
+                "icon": "celebrities",
+                "name": "Celebrities"
+            },
+            {
+                "icon": "animals",
+                "name": "Animals"
+            },
+            {
+                "icon": "vehicles",
+                "name": "Vehicles"
+            },
+            {
+                "icon": "comics",
+                "name": "Comics"
+            },
+            {
+                "icon": "gadgets",
+                "name": "Gadgets"
+            },
+            {
+                "icon": "anime",
+                "name": "Anime/Manga"
+            },
+            {
+                "icon": "cartoon",
+                "name": "Cartoon"
+            },
+            {
+                "icon": "general",
+                "name": "General"
+            }
+        ],
+        "difficultyLevel": [ "Easy", "Medium", "Hard" ],
+        "type": [ "True/False", "Multiple Choice" ]
+    } 
+}

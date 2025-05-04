@@ -1,0 +1,38 @@
+<bee-vertical-layout>
+    
+    <bee-horizontal-layout>
+        <bee-image [imageSrc]="''" />
+        <p> {{ getCategory() }} </p>
+        <!-- <p> Films </p> -->
+    </bee-horizontal-layout>
+
+    <progress></progress>
+
+    <bee-pair-layout [pairDistribution]="PAIR_POLICY.OPPOSITE">
+        <span> {{ `Questions ${getCurrentQuestion()} / ${getTotalQuestions()}` }} </span>
+        <span> {{ `Points ${getCurrentPoints()} / ${getTotalPoints()}` }} </span>
+
+        <!-- <span> {{ `Questions 1/10` }} </span> -->
+        <!-- <span> {{ `Points 0/100` }} </span> -->
+    </bee-pair-layout>
+
+    <p>{{ getQuestion() }}</p>
+    <!-- <p> You must include a question for the game here </p> -->
+
+    <bee-vertical-layout [gap]="15">
+        @for (answer of getAnswers(); track $index) {
+            <quiz-answer 
+                [allowClick]="allowAnswer()" 
+                class="quiz-answer" 
+                (outAnswerState)="userAnswer($event)" 
+                [answer]="answer"/>
+        }
+    </bee-vertical-layout>
+
+    <bee-pair-layout [pairDistribution]="PAIR_POLICY.OPPOSITE">
+        <quiz-timer class="quiz-timer" [setStateTimer]="TIMER_STATE.START"/>
+        <button (click)="nextQuestion()">Next</button>
+    </bee-pair-layout>
+
+
+</bee-vertical-layout>

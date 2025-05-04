@@ -1,0 +1,14 @@
+.quiz-answer{
+
+    cursor: pointer;
+
+    .answer-default{
+        background-color: bisque;
+    }
+    .answer-correct{
+        background-color: rgb(75, 163, 75);
+    }
+    .answer-incorrect{
+        background-color: rgb(155, 63, 63);
+    }
+}
