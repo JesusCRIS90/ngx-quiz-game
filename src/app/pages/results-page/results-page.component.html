@@ -1,24 +1,24 @@
 <bee-center-layout>
-  <bee-vertical-layout>
-    <h1>Your Scores</h1>
+  <bee-vertical-layout class="results-page">
+    <h1 class="title">Final Scores</h1>
 
     <div>
-      <bee-grid-1d-layout
+      <bee-grid-1d-layout class="quiz-score "
         [inputGridDistribution]="'1fr 1fr'"
         [gap]="10"
         [policyPos]="GRID_POLICY.CENTER_LEFT"
       >
         <span>{{ `Points: ${ userScores().userPoints }` }}</span>
         <span>{{ `Total Points: ${ userScores().totalPoints }` }}</span>
-        <span>{{ `Success Answers: ${ userScores().succesAnswers }` }}</span>
-        <span>{{ `Wrong Answers: ${ getWrongAnswers() }` }}</span>
+        <span>{{ `Success: ${ userScores().succesAnswers }` }}</span>
+        <span>{{ `Wrong: ${ getWrongAnswers() }` }}</span>
       </bee-grid-1d-layout>
     </div>
 
     <div>
-      <bee-pair-layout [gap]="20">
-        <button (click)="onClickNewGame()">New Game</button>
-        <button (click)="onClickRepeat()">Repeat</button>
+      <bee-pair-layout [gap]="30">
+        <button class="btn" (click)="onClickNewGame()">New Game</button>
+        <button class="btn"  (click)="onClickRepeat()">Repeat</button>
       </bee-pair-layout>
     </div>
   </bee-vertical-layout>

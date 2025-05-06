@@ -6,10 +6,11 @@ import {
   AnswerState
 } from "../../models"
 
+import { HtmlDecodePipe } from "../../pipes"
 
 @Component({
   selector: 'quiz-answer',
-  imports: [CommonModule],
+  imports: [CommonModule, HtmlDecodePipe],
   templateUrl: './quiz-answer.component.html',
 })
 export class QuizAnswerComponent {

@@ -1,35 +1,45 @@
-<bee-vertical-layout>
-    
-    <bee-horizontal-layout [gap]="20">
-        <bee-image [imageSrc]="''" />
-        <p> {{ getCategory() }} </p>
-        <p> {{ getDifficulty() }} </p>
-    </bee-horizontal-layout>
+<bee-center-layout>
 
-    <progress></progress>
+    <bee-fixed-width-layout [width]="700">
 
-    <bee-pair-layout [pairDistribution]="PAIR_POLICY.OPPOSITE">
-        <span> {{ `Questions ${getCurrentQuestion()} / ${getTotalQuestions()}` }} </span>
-        <span> {{ `Points ${getCurrentPoints()} / ${getTotalPoints()}` }} </span>
-    </bee-pair-layout>
+        <bee-vertical-layout class="quiz-game-page">
+        
+            <div class="quiz-progress">
+                <bee-horizontal-layout [gap]="50">
+                    <!-- <bee-image [imageSrc]="''" /> -->
+                    <p class="quiz-category"> {{ getCategory() }} </p>
+                    <p class="quiz-difficulty"> {{ getDifficulty() }} </p>
+                </bee-horizontal-layout>
+            
+                <progress [max]="getTotalQuestions()" [value]="getCurrentQuestion()"></progress>
+            
+                <bee-pair-layout class="quiz-resume" [pairDistribution]="PAIR_POLICY.OPPOSITE">
+                    <span> {{ `Questions ${getCurrentQuestion()}/${getTotalQuestions()}` }} </span>
+                    <span> {{ `Points ${getCurrentPoints()}/${getTotalPoints()}` }} </span>
+                </bee-pair-layout>
+            </div>
+        
+            <p class="quiz-question">{{ getQuestion() | htmlDecode }}</p>
+        
+            <bee-vertical-layout [gap]="15">
+                @for (answer of getAnswers(); track $index) {
+                    <quiz-answer #quizAnswer 
+                        [allowClick]="allowAnswer()" 
+                        class="quiz-answer" 
+                        (outAnswerState)="userAnswer($event)" 
+                        [answer]="answer"/>
+                }
+            </bee-vertical-layout>
+        
+            <bee-pair-layout class="quiz-controls" [pairDistribution]="PAIR_POLICY.OPPOSITE">
+                <quiz-timer class="quiz-timer" 
+                    [setTime]="calculateQuizTime()" [setStateTimer]="TIMER_STATE.START" (timeout)="timerOut()"/>
+                <button class="btn-next" (click)="nextQuestion()">Next</button>
+            </bee-pair-layout>
+        
+        
+        </bee-vertical-layout>
 
-    <p>{{ getQuestion() }}</p>
+    </bee-fixed-width-layout>
 
-    <bee-vertical-layout [gap]="15">
-        @for (answer of getAnswers(); track $index) {
-            <quiz-answer #quizAnswer 
-                [allowClick]="allowAnswer()" 
-                class="quiz-answer" 
-                (outAnswerState)="userAnswer($event)" 
-                [answer]="answer"/>
-        }
-    </bee-vertical-layout>
-
-    <bee-pair-layout [pairDistribution]="PAIR_POLICY.OPPOSITE">
-        <quiz-timer class="quiz-timer" 
-            [setTime]="calculateQuizTime()" [setStateTimer]="TIMER_STATE.START" (timeout)="timerOut()"/>
-        <button (click)="nextQuestion()">Next</button>
-    </bee-pair-layout>
-
-
-</bee-vertical-layout>
+</bee-center-layout>

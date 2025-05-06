@@ -5,6 +5,8 @@ import {
   VerticalLayoutComponent as FlexVert,
   HorizontalLayoutComponent as FlexHori,
   PairLayoutComponent as PairLayout,
+  CenterLayoutComponent as CenterLayout,
+  FixedWidthLayoutComponent as FixWidth,
   PAIR_DISTRIBUTION as PAIR_POLICY
 } from "@beexy/ngx-layouts"
 
@@ -19,11 +21,14 @@ import {
   AnswerState,
   QuizService
 } from "../../models"
+
 import { getTotalTime, TIME_PER_QUESTION } from '../../utils';
+
+import { HtmlDecodePipe } from "../../pipes"
 
 @Component({
   selector: 'main-quiz-page',
-  imports: [TimerComponent, FlexVert, FlexHori, PairLayout, Image, QuizAnswerComponent],
+  imports: [HtmlDecodePipe, TimerComponent, FlexVert, FlexHori, PairLayout, FixWidth, Image, QuizAnswerComponent, CenterLayout],
   templateUrl: './main-quiz-page.component.html',
 })
 export default class MainQuizPageComponent {
