@@ -3,13 +3,36 @@ export interface AppData {
 }
 
 export interface SelectionPage {
-    rootPath:        string;
-    categories:      Category[];
-    difficultyLevel: string[];
-    type:            string[];
+    rootPath: string;
+    categories: Category[];
+    difficultyLevel: SelectedText[];
+    type: SelectedText[];
 }
 
 export interface Category {
     icon: string;
     name: string;
+    id: string;
+}
+
+export interface SelectedText {
+    id: string;
+    text: string;
+}
+
+export enum SwitchableState {
+    ACTIVE,
+    DISABLE
+}
+
+export interface SelectedItem {
+    id: string;
+    state: SwitchableState
+}
+
+export interface ApiQuizConfig {
+    category: SelectedItem | null,
+    difficulty: SelectedItem | null
+    type: SelectedItem | null
+    numberQuestions: number
 }

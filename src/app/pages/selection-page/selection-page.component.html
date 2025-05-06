@@ -8,7 +8,12 @@
             
             <bee-grid-1d-layout [inputGridDistribution]="'1fr 1fr 1fr 1fr 1fr 1fr'" [gap]="10">
                 @for (category of getCategories(); track $index) {
-                    <switchable-icon class="switchable-icon" [iconInfo]='getIconInfo( category )' />
+                    <switchable-icon 
+                        class="switchable-icon" 
+                        [iconInfo]='getIconInfo( category )' 
+                        [id]="category.id"
+                        (outState)="updateCategorySelected($event)"
+                        />
                     }
                 </bee-grid-1d-layout>
                 
@@ -18,7 +23,10 @@
                         <h1>Difficulty</h1>
                         <bee-horizontal-layout [gap]="20">
                             @for (difficulty of getDifficulties(); track $index) {
-                                <switchable-text class="switchable-text" [text]="difficulty"/>
+                                <switchable-text #difficultyComponents
+                                    class="switchable-text" 
+                                    [selectedText]="difficulty"
+                                    (outState)="updateDifficultySelected($event)"/>
                             }
                         </bee-horizontal-layout>
                     </bee-vertical-layout>
@@ -27,7 +35,10 @@
                         <h1>Type</h1>
                         <bee-horizontal-layout [gap]="20">
                             @for (type of getTypes(); track $index) {
-                                <switchable-text class="switchable-text" [text]="type"/>
+                                <switchable-text #typeComponents
+                                    class="switchable-text" 
+                                    [selectedText]="type"
+                                    (outState)="updateTypeSelected($event)"/>
                             }
                          </bee-horizontal-layout>
                     </bee-vertical-layout>

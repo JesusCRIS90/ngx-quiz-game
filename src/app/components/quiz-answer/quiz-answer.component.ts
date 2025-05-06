@@ -12,7 +12,7 @@ import {
   imports: [CommonModule],
   templateUrl: './quiz-answer.component.html',
 })
-export class QuizAnswerComponent implements OnChanges {
+export class QuizAnswerComponent {
 
   @ViewChild('answerDiv', { static: false }) answerDivRef!: ElementRef;
 
@@ -23,13 +23,7 @@ export class QuizAnswerComponent implements OnChanges {
   @Output()
   outAnswerState = new EventEmitter<AnswerState>();
   
-  constructor(private elementRef: ElementRef) { }
-  
-  ngOnChanges(changes: SimpleChanges): void {
-    if( this.allowClick() ){
-      this.resetClassNames();
-    }
-  }
+  // constructor(public elementRef: ElementRef) { }
 
   get statusClass(): string {
     return this.getStatusClass();
@@ -52,8 +46,16 @@ export class QuizAnswerComponent implements OnChanges {
       this.answerState.set(AnswerState.INCORRECT);
     }
 
+    this.updateClassName();
     this.outAnswerState.emit(this.answerState());
 
+  }
+
+  updateClassName(){
+    const div = this.answerDivRef?.nativeElement as HTMLElement;
+    if (div) {
+      div.setAttribute('class', this.getStatusClass() );
+    }
   }
 
   resetClassNames() {

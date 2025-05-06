@@ -15,44 +15,45 @@ import { EASY_POINTS, MEDIUM_POINTS, HARD_POINTS } from '../utils';
 
 
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class QuizService {
-    
+
     questions: QuestionModel[] = [];
     currentIndex: number = -1;
     userScore: Scores;
-    
-    constructor( ){
 
-        console.log('QUIZ SERVICE CREATED');
-        
-        this.userScore = {
-            totalQuestions: 0,
-            succesAnswers: 0,
-            totalPoints: 0,
-            userPoints: 0
-        }
-    
+    constructor() {
+        this.userScore = this.resetScores();
     }
 
-    newGame( api_questions: API_Question[] ){
-        this.questions = this.processQuestions( api_questions );
+    newGame(api_questions: API_Question[]) {
+        this.resetQuiz();
+        this.questions = this.processQuestions(api_questions);
         this.currentIndex = 0;
     }
 
-    isLastQuestion(): boolean{
-        return ( (this.currentIndex + 1) === this.userScore.totalQuestions );
+    resetQuiz() {
+        this.questions = [];
+        this.userScore = this.resetScores();
     }
 
-    nextQuestion(){
+    repeatGame() {
+        this.userScore = this.repeatScores();
+        this.currentIndex = 0;
+    }
+
+    isLastQuestion(): boolean {
+        return ((this.currentIndex + 1) === this.userScore.totalQuestions);
+    }
+
+    nextQuestion() {
         this.currentIndex += 1;
-        // return this.questions[this.currentIndex++];
     }
 
-    checkUserAnswer( selected: number ){
-        const questionModel = this.getQuestionModel( this.currentIndex );
+    checkUserAnswer(selected: number) {
+        const questionModel = this.getQuestionModel(this.currentIndex);
 
-        if( questionModel.userSelectCorrectAnswer( selected ) ){
+        if (questionModel.userSelectCorrectAnswer(selected)) {
             this.correctAnswer();
         } else {
             this.wrongAnswer();
@@ -60,29 +61,29 @@ export class QuizService {
     }
 
     getQuestionText(): string {
-        const questionModel = this.getQuestionModel( this.currentIndex );
+        const questionModel = this.getQuestionModel(this.currentIndex);
         return questionModel.getQuestion();
     }
 
     getAnswers(): Answer[] {
-        const questionModel = this.getQuestionModel( this.currentIndex );
+        const questionModel = this.getQuestionModel(this.currentIndex);
         return questionModel.getAnswers();
     }
 
-    getQuestionCategory(): string{
-        const questionModel = this.getQuestionModel( this.currentIndex );
+    getQuestionCategory(): string {
+        const questionModel = this.getQuestionModel(this.currentIndex);
         return questionModel.getCategory();
     }
 
-    getQuestionDifficulty(): Difficulty{
-        const questionModel = this.getQuestionModel( this.currentIndex );
+    getQuestionDifficulty(): Difficulty {
+        const questionModel = this.getQuestionModel(this.currentIndex);
         return questionModel.getDifficulty();
     }
-    
+
     getCurrentQuestion(): number {
         return this.currentIndex + 1;
     }
-    
+
     getTotalQuestions(): number {
         return this.userScore.totalQuestions;
     }
@@ -94,43 +95,76 @@ export class QuizService {
     getTotalPoints(): number {
         return this.userScore.totalPoints;
     }
-    
-    getScores(): Scores{
+
+    getScores(): Scores {
         return this.userScore;
-    } 
-    
-    private processQuestions( api_questions: API_Question[] ):QuestionModel[] {
+    }
+
+    private processQuestions(api_questions: API_Question[]): QuestionModel[] {
 
         const questions: QuestionModel[] = [];
 
-        api_questions.forEach( ( value:API_Question ) => {
-            
-            const quesModel = new QuestionModel( value );
-            
+        api_questions.forEach((value: API_Question) => {
+
+            const quesModel = new QuestionModel(value);
+
             this.userScore.totalPoints += quesModel.getPoints();
             this.userScore.totalQuestions++;
-            
-            questions.push( quesModel );
+
+            questions.push(quesModel);
         });
 
         return questions;
     }
 
-    public getQuestionModel( index: number ): QuestionModel{
-        return this.questions[ index ];
+    public getQuestionModel(index: number): QuestionModel {
+        return this.questions[index];
     }
 
-    // TODO: Complete these methods
-    public correctAnswer(){
-        this.updateScore( this.getQuestionDifficulty() );
+    public correctAnswer() {
+        this.updateScore(this.getQuestionDifficulty());
+        this.userScore.succesAnswers += 1;
     }
-    public wrongAnswer(){}
+    public wrongAnswer() { }
 
 
-    private updateScore( difficulty: Difficulty ){
-        if( Difficulty.Easy ){ this.userScore.userPoints += EASY_POINTS }
-        if( Difficulty.Medium ){ this.userScore.userPoints += MEDIUM_POINTS }
-        if( Difficulty.Hard ){ this.userScore.userPoints += HARD_POINTS }
+    private updateScore(difficulty: Difficulty) {
+
+        switch (difficulty) {
+            case Difficulty.Easy:
+                this.userScore.userPoints += EASY_POINTS; return;
+            case Difficulty.Medium:
+                this.userScore.userPoints += MEDIUM_POINTS; return;
+            case Difficulty.Hard:
+                this.userScore.userPoints += HARD_POINTS; return;
+
+            default:
+                return;
+        }
+
     }
 
+    private repeatScores(): Scores {
+
+        const repeatScores: Scores = {
+            totalQuestions: this.userScore.totalQuestions,
+            succesAnswers: 0,
+            totalPoints: this.userScore.totalPoints,
+            userPoints: 0
+        }
+
+        return repeatScores;
+    }
+
+    private resetScores(): Scores {
+
+        const newScores: Scores = {
+            totalQuestions: 0,
+            succesAnswers: 0,
+            totalPoints: 0,
+            userPoints: 0
+        }
+
+        return newScores;
+    }
 }

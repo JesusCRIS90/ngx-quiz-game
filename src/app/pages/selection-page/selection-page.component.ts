@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, QueryList, signal, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { StoragesManager } from '@beexy/tools';
@@ -12,7 +12,7 @@ import {
 } from "@beexy/ngx-layouts"
 
 import { DATA_KEY } from '../../utils';
-import { AppData, Category } from '../../enums';
+import { AppData, Category, SelectedItem, SwitchableState, SelectedText, ApiQuizConfig } from '../../enums';
 
 import { QuizApiServiceService } from "../../services"
 import { QuizService } from '../../models';
@@ -37,14 +37,27 @@ import {CommonErrorWindowComponent} from "../../modals"
 })
 export default class SelectionPageComponent {
 
+  @ViewChildren(SwitchableIconComponent)
+  categoriesComponents!: QueryList<SwitchableIconComponent>;
+
+  @ViewChildren('difficultyComponents')
+  difficultyComponents!: QueryList<SwitchableTextComponent>;
+
+  @ViewChildren('typeComponents')
+  typeComponents!: QueryList<SwitchableTextComponent>;
+  
   private storage = inject(StoragesManager);
-  // private quizService = inject(QuizService);
   private readonly quizApi = inject(QuizApiServiceService);
   
   protected rootPath: string = '';
   protected categories: Category[] = [];
-  protected difficulty: string[] = [];
-  protected type: string[] = [];
+  protected difficulty: SelectedText[] = [];
+  protected type: SelectedText[] = [];
+
+
+  protected selectedCategory: SelectedItem|null = null;
+  protected selectedDifficulty: SelectedItem|null = null;
+  protected selectedType: SelectedItem|null = null;
 
   protected apiQuestions: API_Question[] = [];
 
@@ -66,7 +79,7 @@ export default class SelectionPageComponent {
       
       this.rootPath = data.selectionPage.rootPath;
       this.categories = data.selectionPage.categories;
-      this.difficulty = data.selectionPage.difficultyLevel
+      this.difficulty =  data.selectionPage.difficultyLevel; 
       this.type = data.selectionPage.type;
 
       this.loadedData.set(true);
@@ -85,11 +98,11 @@ export default class SelectionPageComponent {
     return this.rootPath;
   }
 
-  getDifficulties(): string[] {
+  getDifficulties(): SelectedText[] {
     return this.difficulty;
   }
 
-  getTypes(): string[] {
+  getTypes(): SelectedText[] {
     return this.type;
   }
 
@@ -97,15 +110,26 @@ export default class SelectionPageComponent {
     
     const newCategory: Category = {
       name: category.name,
-      icon: `${this.getRootPath()}/${category.icon}.png`
+      icon: `${this.getRootPath()}/${category.icon}.png`,
+      id: category.id
     }
 
     return newCategory;
   }
 
+  protected getApiQuizParams(): ApiQuizConfig {
+    return {
+      category: this.selectedCategory,
+      difficulty: this.selectedDifficulty,
+      type: this.selectedType,
+      numberQuestions: 10
+    }
+  }
+
   getQuizQuestions(){
     
-    this.quizApi.getQuestions({}).subscribe({
+    this.quizApi.getQuestions(this.getApiQuizParams()).subscribe({
+
       next: (data:OpendbtriviaData) => {
         
         this.disableBtn.set(true);
@@ -137,6 +161,98 @@ export default class SelectionPageComponent {
 
   private prepareNewGame( data: API_Question[] ) {
     this.quizService.newGame( data );
+  }
+
+  protected updateCategorySelected( valueEmitted:SelectedItem){
+
+    // Selected and Emited are the same
+    if( this.selectedCategory !== null && this.selectedCategory.id === valueEmitted.id ){
+      if( valueEmitted.state === SwitchableState.DISABLE ){
+        this.find_and_disactivate_with_id( valueEmitted.id, this.selectedCategory, this.categoriesComponents );
+        this.selectedCategory = null; 
+        return;
+      }
+    }
+
+    // Selected and Emited are different
+    if (this.selectedCategory !== null && this.selectedCategory.id !== valueEmitted.id) {
+      
+      // 1. Find the previously selected component using its ID
+      const previous = this.categoriesComponents.find(icon => icon.getId() === this.selectedCategory!.id);
+
+      // 2. Call the method to deactivate it
+      if (previous) {
+        previous.disactivate(); // Assumes your component has this method
+      }
+    }
+
+    this.selectedCategory = valueEmitted;
+  }
+
+  protected updateDifficultySelected( valueEmitted:SelectedItem){
+
+    // debugger;
+    // Selected and Emited are the same
+    if( this.selectedDifficulty !== null && this.selectedDifficulty.id === valueEmitted.id ){
+      if( valueEmitted.state === SwitchableState.DISABLE ){
+        this.find_and_disactivate_with_id( valueEmitted.id, this.selectedDifficulty, this.difficultyComponents );
+        this.selectedDifficulty = null; 
+        return;
+      }
+    }
+
+    // debugger;
+    // Selected and Emited are different
+    if (this.selectedDifficulty !== null && this.selectedDifficulty.id !== valueEmitted.id) {
+      
+      // 1. Find the previously selected component using its ID
+      const previous = this.difficultyComponents.find(icon => icon.getId() === this.selectedDifficulty!.id);
+
+      // 2. Call the method to deactivate it
+      if (previous) {
+        previous.disactivate(); // Assumes your component has this method
+      }
+    }
+
+    // debugger;
+    this.selectedDifficulty = valueEmitted;
+  }
+
+  protected updateTypeSelected( valueEmitted:SelectedItem){
+
+    // Selected and Emited are the same
+    if( this.selectedType !== null && this.selectedType.id === valueEmitted.id ){
+      if( valueEmitted.state === SwitchableState.DISABLE ){
+        this.find_and_disactivate_with_id( valueEmitted.id, this.selectedType, this.typeComponents );
+        this.selectedType = null; 
+        return;
+      }
+    }
+
+    // Selected and Emited are different
+    if (this.selectedType !== null && this.selectedType.id !== valueEmitted.id) {
+      
+      // 1. Find the previously selected component using its ID
+      const previous = this.typeComponents.find(icon => icon.getId() === this.selectedType!.id);
+
+      // 2. Call the method to deactivate it
+      if (previous) {
+        previous.disactivate(); // Assumes your component has this method
+      }
+    }
+
+    this.selectedType = valueEmitted;
+  }
+
+  private find_and_disactivate_with_id( 
+    id: string,
+    selectedItem: SelectedItem | null,
+    componentsList: QueryList<SwitchableIconComponent | SwitchableTextComponent>
+   ){
+    const element = componentsList.find(icon => icon.getId() === selectedItem!.id);
+    if (element) {
+      element.disactivate(); // Assumes your component has this method
+    }
   }
 
 }

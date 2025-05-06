@@ -1,4 +1,4 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, EventEmitter, input, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import {
@@ -10,13 +10,11 @@ import {
 } from "@beexy/ngx-layouts"
 
 import {
-  Category
+  Category,
+  SwitchableState,
+  SelectedItem
 } from "../../enums"
 
-enum SwitchableState {
-  ACTIVE,
-  DISABLE
-}
 
 @Component({
   selector: 'switchable-icon',
@@ -28,6 +26,9 @@ export class SwitchableIconComponent {
   iconInfo = input.required<Category>();
 
   state = signal<SwitchableState>(SwitchableState.DISABLE);
+
+  @Output()
+  outState = new EventEmitter<SelectedItem>();
 
   getImage() {
     return this.iconInfo().icon;
@@ -45,8 +46,23 @@ export class SwitchableIconComponent {
 
     if (this.state() === SwitchableState.ACTIVE)
       this.state.set(SwitchableState.DISABLE);
-    else
+    else{
       this.state.set(SwitchableState.ACTIVE);
+    }
+
+    this.outState.emit({
+      id: this.getId(),
+      state: this.state()
+    });
+  
+  }
+
+  disactivate(){
+    this.state.set( SwitchableState.DISABLE );
+  }
+  
+  getId(){
+    return this.iconInfo().id;
   }
 
 }

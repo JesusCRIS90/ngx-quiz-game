@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, ElementRef, QueryList, signal, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 
 import {
@@ -27,6 +27,9 @@ import {
   templateUrl: './main-quiz-page.component.html',
 })
 export default class MainQuizPageComponent {
+  
+  @ViewChildren('quizAnswer') quizAnswerComponents!: QueryList<QuizAnswerComponent>;
+  
   TIMER_STATE = TIMER_STATE;
   PAIR_POLICY = PAIR_POLICY;
 
@@ -54,22 +57,34 @@ export default class MainQuizPageComponent {
   }
 
   nextQuestion(){
-
-    if( this.allowNextQuestion() === false ) return;
-
-    if( this.quizService.isLastQuestion() ){
-      // navigate to scores page
     
+    if( this.quizService.isLastQuestion() ){
       this.router.navigate(['/results']);
       return;
     }
+    
+    if( this.allowNextQuestion() === false ) return;
+
 
     this.quizService.nextQuestion();
 
     this.allowAnswer.set(true);
     this.allowNextQuestion.set(false);
 
+    this.resetAllAnswers();
   }
+
+  protected resetAllAnswers(): void {
+    this.quizAnswerComponents.forEach((comp) => {
+      comp.resetClassNames();
+    });
+  }
+
+  timerOut(){
+    this.router.navigate(['/results']);
+  }
+
+  // SETTERS
 
   getCategory(): string {
     return this.quizService.getQuestionCategory();

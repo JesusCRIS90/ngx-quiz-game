@@ -8,17 +8,17 @@
         [gap]="10"
         [policyPos]="GRID_POLICY.CENTER_LEFT"
       >
-        <span>Points: 1</span>
-        <span>Total Points: 100</span>
-        <span>Wrong Answers: 1</span>
-        <span>Success Answers: 1</span>
+        <span>{{ `Points: ${ userScores().userPoints }` }}</span>
+        <span>{{ `Total Points: ${ userScores().totalPoints }` }}</span>
+        <span>{{ `Success Answers: ${ userScores().succesAnswers }` }}</span>
+        <span>{{ `Wrong Answers: ${ getWrongAnswers() }` }}</span>
       </bee-grid-1d-layout>
     </div>
 
     <div>
       <bee-pair-layout [gap]="20">
-        <button>New Game</button>
-        <button>Repeat</button>
+        <button (click)="onClickNewGame()">New Game</button>
+        <button (click)="onClickRepeat()">Repeat</button>
       </bee-pair-layout>
     </div>
   </bee-vertical-layout>
