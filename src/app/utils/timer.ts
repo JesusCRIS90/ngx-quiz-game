@@ -1,16 +1,18 @@
 
 export class Timer extends EventTarget {
 
-    private initialSeconds: number;
-    private remainingSeconds: number;
+    private initialSeconds: number = 0;
+    private remainingSeconds: number = 0;
     private intervalId: number | null = null;
     private isRunning = false;
 
     constructor(timeString: string) {
         super();
+        this.configTime( timeString );
+    }
 
+    protected configTime(timeString: string) {
         const [minutes, seconds] = timeString.split(":").map(Number);
-
         if (isNaN(minutes) || isNaN(seconds)) {
             throw new Error("Invalid time format. Use 'MMM:SS'");
         }
@@ -20,8 +22,8 @@ export class Timer extends EventTarget {
     }
 
     static formatTime(seconds: number): string {
-        
-        const mmDigits = ( Math.floor(seconds / 60) >= 100 ) ? 3: 2
+
+        const mmDigits = (Math.floor(seconds / 60) >= 100) ? 3 : 2
 
         const mm = Math.floor(seconds / 60).toString().padStart(mmDigits, "0");
         const ss = (seconds % 60).toString().padStart(2, "0");
@@ -29,12 +31,12 @@ export class Timer extends EventTarget {
     }
 
     public start(): void {
-        
+
         if (this.isRunning || this.remainingSeconds <= 0) return;
 
         this.isRunning = true;
-        this.intervalId = window.setInterval( () => {
-            
+        this.intervalId = window.setInterval(() => {
+
             this.remainingSeconds--;
 
             this.dispatchEvent(
@@ -45,7 +47,7 @@ export class Timer extends EventTarget {
                 this.stop();
                 this.dispatchEvent(new Event("timeout"));
             }
-        }, 1000 );
+        }, 1000);
     }
 
     public pause(): void {
@@ -68,6 +70,10 @@ export class Timer extends EventTarget {
     public reset(): void {
         this.stop();
         this.remainingSeconds = this.initialSeconds;
+    }
+
+    public setTime(time: string) {
+        this.configTime( time );
     }
 
     public getTime(): string {

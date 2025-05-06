@@ -1,0 +1,38 @@
+.page-selection {
+  .config-container {
+    background-color: var(--color-darkest);
+    padding: 1rem 3.5rem;
+
+    border-radius: 10px;
+  }
+
+  .btn-start-game {
+    display: block;
+    cursor: pointer;
+
+    font-size: 1.25rem;
+    font-weight: 500;
+
+    margin: 1.5rem 0rem;
+    margin-top: 3rem;
+    padding: 0.8rem 2rem;
+
+    border-radius: 15px;
+    border: 2px solid var(--color-theme);
+    background-color: var(--color-darkest);
+  }
+
+  .btn-start-game:hover {
+    border: 2px solid var(--color-accent);
+  }
+
+  h1{
+    margin: 0.75rem 0rem;
+    color: var(--color-light);
+  }
+
+  .categories{
+    margin-bottom: 1.8rem;
+  }
+
+}

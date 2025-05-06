@@ -1,6 +1,6 @@
-import { Component, computed, input, OnDestroy, OnInit, signal, effect, Output, EventEmitter } from '@angular/core';
+import { Component, input, OnDestroy, OnInit, signal, effect, Output, EventEmitter } from '@angular/core';
 
-import { Timer, TOTAL_QUESTIONS, TIME_PER_QUESTION, getTotalTime } from "../../utils"
+import { Timer } from "../../utils"
 
 export enum TIMER_STATE {
   START,
@@ -19,12 +19,11 @@ export class TimerComponent implements OnInit, OnDestroy {
   private timer: Timer;
 
   setStateTimer = input<TIMER_STATE>(TIMER_STATE.STOP);
-  
+  setTime = input<string>("01:00");
+
   // Output events
   @Output() tick = new EventEmitter<string>();
   @Output() timeout = new EventEmitter<void>();
-  
-  // updateTimerState = computed(() => { this.onTimerStateChange() });
   
   timerState = signal<TIMER_STATE>(TIMER_STATE.STOP);
   remainingTime = signal<string>('');
@@ -32,7 +31,8 @@ export class TimerComponent implements OnInit, OnDestroy {
 
   constructor() {
 
-    this.timer = new Timer(getTotalTime(TIME_PER_QUESTION, TOTAL_QUESTIONS));
+    // this.timer = new Timer(getTotalTime(TIME_PER_QUESTION, TOTAL_QUESTIONS));
+    this.timer = new Timer( this.setTime() );
 
     this.timer.addEventListener("tick", (event: Event) => {
       const customEvent = event as CustomEvent<string>;
@@ -54,12 +54,16 @@ export class TimerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.start();
+    this.timer.setTime( this.setTime() );
+    // this.start();
   }
 
   ngOnDestroy(): void {
     this.stop();
   }
+
+  // setValueTime(time:string){
+  // }
 
   get timerStatus(): TIMER_STATE {
     return this.timerState();

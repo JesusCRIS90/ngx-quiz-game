@@ -26,7 +26,8 @@
     </bee-vertical-layout>
 
     <bee-pair-layout [pairDistribution]="PAIR_POLICY.OPPOSITE">
-        <quiz-timer class="quiz-timer" [setStateTimer]="TIMER_STATE.START" (timeout)="timerOut()"/>
+        <quiz-timer class="quiz-timer" 
+            [setTime]="calculateQuizTime()" [setStateTimer]="TIMER_STATE.START" (timeout)="timerOut()"/>
         <button (click)="nextQuestion()">Next</button>
     </bee-pair-layout>
 

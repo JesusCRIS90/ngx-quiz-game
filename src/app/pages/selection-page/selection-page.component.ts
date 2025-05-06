@@ -8,7 +8,8 @@ import {
   GridLayout1DComponent as Grid1D,
   VerticalLayoutComponent as FlexVert,
   HorizontalLayoutComponent as FlexHori,
-  FixedWidthLayoutComponent as FixWidth
+  FixedWidthLayoutComponent as FixWidth,
+  CenterLayoutComponent as CenterLayout
 } from "@beexy/ngx-layouts"
 
 import { DATA_KEY } from '../../utils';
@@ -32,7 +33,7 @@ import {CommonErrorWindowComponent} from "../../modals"
 
 @Component({
   selector: 'app-selection-page',
-  imports: [FixWidth, Grid1D, FlexVert, FlexHori, SwitchableTextComponent, SwitchableIconComponent],
+  imports: [CenterLayout, FixWidth, Grid1D, FlexVert, FlexHori, SwitchableTextComponent, SwitchableIconComponent],
   templateUrl: './selection-page.component.html',
 })
 export default class SelectionPageComponent {
@@ -59,7 +60,7 @@ export default class SelectionPageComponent {
   protected selectedDifficulty: SelectedItem|null = null;
   protected selectedType: SelectedItem|null = null;
 
-  protected apiQuestions: API_Question[] = [];
+  // protected apiQuestions: API_Question[] = [];
 
   loadedData = signal<boolean>(false);
   disableBtn = signal<boolean>(false);
@@ -127,13 +128,14 @@ export default class SelectionPageComponent {
   }
 
   getQuizQuestions(){
+
+    // Avoid User/Client click severals time repeateadly
+    this.disableBtn.set(true);
     
     this.quizApi.getQuestions(this.getApiQuizParams()).subscribe({
 
       next: (data:OpendbtriviaData) => {
         
-        this.disableBtn.set(true);
-
         if( data.response_code === 0 ){
 
           this.prepareNewGame( data.results );

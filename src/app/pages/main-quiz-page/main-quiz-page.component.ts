@@ -1,4 +1,4 @@
-import { Component, ElementRef, QueryList, signal, ViewChildren } from '@angular/core';
+import { Component, computed, QueryList, signal, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 
 import {
@@ -17,9 +17,9 @@ import { TimerComponent, TIMER_STATE, QuizAnswerComponent } from "../../componen
 import {
   Answer,
   AnswerState,
-  QuestionModel,
   QuizService
 } from "../../models"
+import { getTotalTime, TIME_PER_QUESTION } from '../../utils';
 
 @Component({
   selector: 'main-quiz-page',
@@ -36,13 +36,14 @@ export default class MainQuizPageComponent {
   allowAnswer = signal<boolean>(true);
   allowNextQuestion = signal<boolean>(false);
 
-  // currentQuestionModel = signal<QuestionModel>();
+  timerState = signal<TIMER_STATE>(TIMER_STATE.STOP);
+  
+  updateTimerState = computed( () => { return this.timerState() } );
 
   constructor(
     private router: Router,
-    private quizService: QuizService) {
-    // this.currentQuestionModel.set( quizService.getQuestionModel(0) );
-  }
+    private quizService: QuizService) {}
+
 
   userAnswer( ansState: AnswerState ){
     
@@ -74,6 +75,10 @@ export default class MainQuizPageComponent {
     this.resetAllAnswers();
   }
 
+  calculateQuizTime():string{
+    return getTotalTime(TIME_PER_QUESTION, this.quizService.getTotalQuestions());
+  }
+
   protected resetAllAnswers(): void {
     this.quizAnswerComponents.forEach((comp) => {
       comp.resetClassNames();
@@ -84,8 +89,7 @@ export default class MainQuizPageComponent {
     this.router.navigate(['/results']);
   }
 
-  // SETTERS
-
+  // GETTERS
   getCategory(): string {
     return this.quizService.getQuestionCategory();
   }

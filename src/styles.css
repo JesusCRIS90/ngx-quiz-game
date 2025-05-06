@@ -1,13 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
-@import './app/assets/styles/components/switchable-icon.css';
-@import './app/assets/styles/components/switchable-text.css';
-@import './app/assets/styles/components/timer.css';
+@import "./app/assets/styles/theme-colour.css";
 
-@import './app/assets/styles/pages/quiz-game-page.css';
+@import "./app/assets/styles/pages/pages-styles.css";
+
+@import "./app/assets/styles/components/switchable-icon.css";
+@import "./app/assets/styles/components/switchable-text.css";
+@import "./app/assets/styles/components/timer.css";
+
 
 html,
 body {
-background-color: #c7c7c7;
+  background-color: var(--color-bg);
   margin: 0;
   padding: 0;
 }
