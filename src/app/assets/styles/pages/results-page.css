@@ -1,0 +1,40 @@
+.results-page {
+  background-color: var(--color-darkest);
+  padding: 2rem 3.5rem;
+
+  border-radius: 10px;
+
+  .title {
+    font-size: 3rem;
+    margin: 0rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn {
+    display: block;
+    cursor: pointer;
+
+    width: 200px;
+
+    font-size: 1.25rem;
+    font-weight: 500;
+
+    margin: 1.5rem 0rem;
+    padding: 0.8rem 2rem;
+
+    border-radius: 15px;
+    border: 2px solid var(--color-theme);
+    background-color: var(--color-darkest);
+  }
+
+  .btn:hover {
+    border: 2px solid var(--color-accent);
+  }
+
+  .quiz-score {
+    margin-bottom: 1rem;
+    span {
+      font-size: 2rem;
+    }
+  }
+}
