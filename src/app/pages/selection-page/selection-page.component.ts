@@ -13,7 +13,7 @@ import {
 } from "@beexy/ngx-layouts"
 
 import { DATA_KEY, getRightPath } from '../../utils';
-import { AppData, Category, SelectedItem, SwitchableState, SelectedText, ApiQuizConfig } from '../../enums';
+import { AppData, Category, SelectedItem, SwitchableState, SelectedText, ApiQuizConfig, ErrorMessage } from '../../enums';
 
 import { QuizApiServiceService } from "../../services"
 import { QuizService } from '../../models';
@@ -28,7 +28,7 @@ import {
   SwitchableTextComponent
 } from "../../components"
 
-import {CommonErrorWindowComponent} from "../../modals"
+import { CommonErrorWindowComponent } from "../../modals"
 
 
 @Component({
@@ -46,19 +46,19 @@ export default class SelectionPageComponent {
 
   @ViewChildren('typeComponents')
   typeComponents!: QueryList<SwitchableTextComponent>;
-  
+
   private storage = inject(StoragesManager);
   private readonly quizApi = inject(QuizApiServiceService);
-  
+
   protected rootPath: string = '';
   protected categories: Category[] = [];
   protected difficulty: SelectedText[] = [];
   protected type: SelectedText[] = [];
 
 
-  protected selectedCategory: SelectedItem|null = null;
-  protected selectedDifficulty: SelectedItem|null = null;
-  protected selectedType: SelectedItem|null = null;
+  protected selectedCategory: SelectedItem | null = null;
+  protected selectedDifficulty: SelectedItem | null = null;
+  protected selectedType: SelectedItem | null = null;
 
   // protected apiQuestions: API_Question[] = [];
 
@@ -68,7 +68,7 @@ export default class SelectionPageComponent {
   constructor(
     private router: Router,
     private quizService: QuizService,
-    private modalService: ModalWindowService ) {
+    private modalService: ModalWindowService) {
     this.getDataFromStorage();
   }
 
@@ -77,10 +77,10 @@ export default class SelectionPageComponent {
     const data = this.storage.getStorageDataFromKey<AppData>(DATA_KEY);
 
     if (data !== null) {
-      
+
       this.rootPath = getRightPath(data.selectionPage.rootPath);
       this.categories = data.selectionPage.categories;
-      this.difficulty =  data.selectionPage.difficultyLevel; 
+      this.difficulty = data.selectionPage.difficultyLevel;
       this.type = data.selectionPage.type;
 
       this.loadedData.set(true);
@@ -107,8 +107,8 @@ export default class SelectionPageComponent {
     return this.type;
   }
 
-  getIconInfo( category: Category ): Category {
-    
+  getIconInfo(category: Category): Category {
+
     const newCategory: Category = {
       name: category.name,
       icon: `${this.getRootPath()}/${category.icon}.png`,
@@ -127,58 +127,61 @@ export default class SelectionPageComponent {
     }
   }
 
-  getQuizQuestions(){
+  getQuizQuestions() {
 
     // Avoid User/Client click severals time repeateadly
     this.disableBtn.set(true);
-    
+
     this.quizApi.getQuestions(this.getApiQuizParams()).subscribe({
 
-      next: (data:OpendbtriviaData) => {
-        
-        if( data.response_code === 0 ){
+      next: (data: OpendbtriviaData) => {
 
-          this.prepareNewGame( data.results );
-          // console.log("SELECTION-PAGE", this.quizService);
-          // debugger;
+        if (data.response_code === 0) {
+          this.prepareNewGame(data.results);
           this.router.navigate(['/quiz-game']);
-
         } else {
-
-          this.modalService.open({ component: CommonErrorWindowComponent });
+          this.modalService.open<ErrorMessage>(
+            {
+              component: CommonErrorWindowComponent,
+              data: { message: `It seems that your Quiz Configurations is not valid. \n Please choose another one.` } as ErrorMessage
+            });
           this.disableBtn.set(false);
-        
         }
       },
       error: (err) => {
         console.error('Failed to fetch users', err);
-        
-        this.modalService.open({ component: CommonErrorWindowComponent });
+
+        console.log(err);
+        this.modalService.open<ErrorMessage>(
+          {
+            component: CommonErrorWindowComponent,
+            data: { message: `Error Type:${err.statusText}.\nMessage:${err.message}` } as ErrorMessage
+          });
         this.disableBtn.set(false);
-      
+
       },
     });
-  
+
   }
 
-  private prepareNewGame( data: API_Question[] ) {
-    this.quizService.newGame( data );
+  private prepareNewGame(data: API_Question[]) {
+    this.quizService.newGame(data);
   }
 
-  protected updateCategorySelected( valueEmitted:SelectedItem){
+  protected updateCategorySelected(valueEmitted: SelectedItem) {
 
     // Selected and Emited are the same
-    if( this.selectedCategory !== null && this.selectedCategory.id === valueEmitted.id ){
-      if( valueEmitted.state === SwitchableState.DISABLE ){
-        this.find_and_disactivate_with_id( valueEmitted.id, this.selectedCategory, this.categoriesComponents );
-        this.selectedCategory = null; 
+    if (this.selectedCategory !== null && this.selectedCategory.id === valueEmitted.id) {
+      if (valueEmitted.state === SwitchableState.DISABLE) {
+        this.find_and_disactivate_with_id(valueEmitted.id, this.selectedCategory, this.categoriesComponents);
+        this.selectedCategory = null;
         return;
       }
     }
 
     // Selected and Emited are different
     if (this.selectedCategory !== null && this.selectedCategory.id !== valueEmitted.id) {
-      
+
       // 1. Find the previously selected component using its ID
       const previous = this.categoriesComponents.find(icon => icon.getId() === this.selectedCategory!.id);
 
@@ -191,14 +194,14 @@ export default class SelectionPageComponent {
     this.selectedCategory = valueEmitted;
   }
 
-  protected updateDifficultySelected( valueEmitted:SelectedItem){
+  protected updateDifficultySelected(valueEmitted: SelectedItem) {
 
     // debugger;
     // Selected and Emited are the same
-    if( this.selectedDifficulty !== null && this.selectedDifficulty.id === valueEmitted.id ){
-      if( valueEmitted.state === SwitchableState.DISABLE ){
-        this.find_and_disactivate_with_id( valueEmitted.id, this.selectedDifficulty, this.difficultyComponents );
-        this.selectedDifficulty = null; 
+    if (this.selectedDifficulty !== null && this.selectedDifficulty.id === valueEmitted.id) {
+      if (valueEmitted.state === SwitchableState.DISABLE) {
+        this.find_and_disactivate_with_id(valueEmitted.id, this.selectedDifficulty, this.difficultyComponents);
+        this.selectedDifficulty = null;
         return;
       }
     }
@@ -206,7 +209,7 @@ export default class SelectionPageComponent {
     // debugger;
     // Selected and Emited are different
     if (this.selectedDifficulty !== null && this.selectedDifficulty.id !== valueEmitted.id) {
-      
+
       // 1. Find the previously selected component using its ID
       const previous = this.difficultyComponents.find(icon => icon.getId() === this.selectedDifficulty!.id);
 
@@ -220,20 +223,20 @@ export default class SelectionPageComponent {
     this.selectedDifficulty = valueEmitted;
   }
 
-  protected updateTypeSelected( valueEmitted:SelectedItem){
+  protected updateTypeSelected(valueEmitted: SelectedItem) {
 
     // Selected and Emited are the same
-    if( this.selectedType !== null && this.selectedType.id === valueEmitted.id ){
-      if( valueEmitted.state === SwitchableState.DISABLE ){
-        this.find_and_disactivate_with_id( valueEmitted.id, this.selectedType, this.typeComponents );
-        this.selectedType = null; 
+    if (this.selectedType !== null && this.selectedType.id === valueEmitted.id) {
+      if (valueEmitted.state === SwitchableState.DISABLE) {
+        this.find_and_disactivate_with_id(valueEmitted.id, this.selectedType, this.typeComponents);
+        this.selectedType = null;
         return;
       }
     }
 
     // Selected and Emited are different
     if (this.selectedType !== null && this.selectedType.id !== valueEmitted.id) {
-      
+
       // 1. Find the previously selected component using its ID
       const previous = this.typeComponents.find(icon => icon.getId() === this.selectedType!.id);
 
@@ -246,11 +249,11 @@ export default class SelectionPageComponent {
     this.selectedType = valueEmitted;
   }
 
-  private find_and_disactivate_with_id( 
+  private find_and_disactivate_with_id(
     id: string,
     selectedItem: SelectedItem | null,
     componentsList: QueryList<SwitchableIconComponent | SwitchableTextComponent>
-   ){
+  ) {
     const element = componentsList.find(icon => icon.getId() === selectedItem!.id);
     if (element) {
       element.disactivate(); // Assumes your component has this method
