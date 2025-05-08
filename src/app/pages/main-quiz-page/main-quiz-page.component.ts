@@ -10,10 +10,6 @@ import {
   PAIR_DISTRIBUTION as PAIR_POLICY
 } from "@beexy/ngx-layouts"
 
-import {
-  ImageComponent as Image
-} from "@beexy/ngx-components"
-
 import { TimerComponent, TIMER_STATE, QuizAnswerComponent } from "../../components"
 
 import {
@@ -28,7 +24,7 @@ import { HtmlDecodePipe } from "../../pipes"
 
 @Component({
   selector: 'main-quiz-page',
-  imports: [HtmlDecodePipe, TimerComponent, FlexVert, FlexHori, PairLayout, FixWidth, Image, QuizAnswerComponent, CenterLayout],
+  imports: [HtmlDecodePipe, TimerComponent, FlexVert, FlexHori, PairLayout, FixWidth, QuizAnswerComponent, CenterLayout],
   templateUrl: './main-quiz-page.component.html',
 })
 export default class MainQuizPageComponent {
