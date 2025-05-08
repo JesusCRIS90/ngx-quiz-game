@@ -1,10 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-// TODO: Pass data to this modal window
+import {
+  FormatMessagePipe
+} from "../../pipes"
 
 @Component({
   selector: 'app-common-error-window',
-  imports: [],
+  imports: [FormatMessagePipe],
   templateUrl: './common-error-window.component.html',
 })
-export class CommonErrorWindowComponent { }
+export class CommonErrorWindowComponent {
+  @Input() message!: string;
+}

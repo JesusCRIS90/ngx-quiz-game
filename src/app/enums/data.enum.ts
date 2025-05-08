@@ -36,3 +36,7 @@ export interface ApiQuizConfig {
     type: SelectedItem | null
     numberQuestions: number
 }
+
+export interface ErrorMessage {
+    message: string;
+}
