@@ -29,5 +29,6 @@ Here are some planned enhancements and features we aim to add in future releases
 - [ ] Add Slider to allow user configure number of Question. By default it takes 10 Questions
 - [ ] Severals Graphic Improvements
 - [ ] Visuals Improvements
+- [ ] Improvement Modal Window
 
 Contributions and suggestions are always welcome! Feel free to open an issue or submit a pull request 🚀
