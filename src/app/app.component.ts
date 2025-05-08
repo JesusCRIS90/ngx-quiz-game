@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
 
     this.loadData(DATA_PATH);
 
-    console.log(this.storage);
+    console.log("[APP-COMPONENT]", this.storage);
   }
 
   protected async loadData(path: string) {

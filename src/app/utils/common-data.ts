@@ -1,4 +1,7 @@
-export const DATA_PATH = '/assets/data/app-data.json';
+import { environment } from '../../environments/environment';
+
+// export const DATA_PATH = '/assets/data/app-data.json';
+export const DATA_PATH = `${environment.baseHref}/assets/data/app-data.json`;
 export const DATA_KEY = "AppKey";
 
 export const OPEN_TRIVIA_API = 'https://opentdb.com/api.php'

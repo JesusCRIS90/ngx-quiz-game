@@ -20,7 +20,7 @@ export class ViewAppComponent {
 
     if (navType === 'reload') {
       console.log('Detected page refresh globally. Redirecting...');
-      this.router.navigate(['/home']); // 🔁 Change this to your target route
+      this.router.navigate(['/']);
     }
   
   }

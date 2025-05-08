@@ -34,7 +34,7 @@ export default class ResultsPageComponent {
   }
 
   onClickNewGame(){
-    this.router.navigate(['/selection']);
+    this.router.navigate(['/']);
   }
 
   onClickRepeat(){

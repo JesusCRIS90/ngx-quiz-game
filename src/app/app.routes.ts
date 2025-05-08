@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
     {
-        path: 'selection',
+        path: '',
         loadComponent: () => import('./pages/selection-page/selection-page.component'),
     },
     {
@@ -15,6 +15,6 @@ export const routes: Routes = [
     },
     {
         path: '**',
-        redirectTo: 'selection'
+        redirectTo: ''
     }
 ];

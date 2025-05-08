@@ -12,7 +12,7 @@ import {
   CenterLayoutComponent as CenterLayout
 } from "@beexy/ngx-layouts"
 
-import { DATA_KEY } from '../../utils';
+import { DATA_KEY, getRightPath } from '../../utils';
 import { AppData, Category, SelectedItem, SwitchableState, SelectedText, ApiQuizConfig } from '../../enums';
 
 import { QuizApiServiceService } from "../../services"
@@ -78,7 +78,7 @@ export default class SelectionPageComponent {
 
     if (data !== null) {
       
-      this.rootPath = data.selectionPage.rootPath;
+      this.rootPath = getRightPath(data.selectionPage.rootPath);
       this.categories = data.selectionPage.categories;
       this.difficulty =  data.selectionPage.difficultyLevel; 
       this.type = data.selectionPage.type;
