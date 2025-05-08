@@ -19,7 +19,6 @@ export class ViewAppComponent {
     const navType = (navEntries[0] as PerformanceNavigationTiming)?.type;
 
     if (navType === 'reload') {
-      console.log('Detected page refresh globally. Redirecting...');
       this.router.navigate(['/']);
     }
   

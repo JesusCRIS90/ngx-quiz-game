@@ -45,8 +45,6 @@ export class QuizApiServiceService {
     const queryString = queryParams.join("&");
     const APIRequest = `${OPEN_TRIVIA_API}?${queryString}`;
 
-    // console.log(APIRequest);
-
     return this.http.get<OpendbtriviaData>(APIRequest);
   }
 

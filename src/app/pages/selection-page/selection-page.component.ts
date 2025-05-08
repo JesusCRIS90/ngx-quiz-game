@@ -150,8 +150,6 @@ export default class SelectionPageComponent {
       },
       error: (err) => {
         console.error('Failed to fetch users', err);
-
-        console.log(err);
         this.modalService.open<ErrorMessage>(
           {
             component: CommonErrorWindowComponent,

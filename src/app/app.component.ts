@@ -39,10 +39,7 @@ export class AppComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-
     this.loadData(DATA_PATH);
-
-    console.log("[APP-COMPONENT]", this.storage);
   }
 
   protected async loadData(path: string) {
