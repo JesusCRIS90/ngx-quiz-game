@@ -11,16 +11,6 @@ export class Timer extends EventTarget {
         this.configTime( timeString );
     }
 
-    protected configTime(timeString: string) {
-        const [minutes, seconds] = timeString.split(":").map(Number);
-        if (isNaN(minutes) || isNaN(seconds)) {
-            throw new Error("Invalid time format. Use 'MMM:SS'");
-        }
-
-        this.initialSeconds = minutes * 60 + seconds;
-        this.remainingSeconds = this.initialSeconds;
-    }
-
     static formatTime(seconds: number): string {
 
         const mmDigits = (Math.floor(seconds / 60) >= 100) ? 3 : 2
@@ -29,7 +19,7 @@ export class Timer extends EventTarget {
         const ss = (seconds % 60).toString().padStart(2, "0");
         return `${mm}:${ss}`;
     }
-
+    
     public start(): void {
 
         if (this.isRunning || this.remainingSeconds <= 0) return;
@@ -71,7 +61,7 @@ export class Timer extends EventTarget {
         this.stop();
         this.remainingSeconds = this.initialSeconds;
     }
-
+    
     public setTime(time: string) {
         this.configTime( time );
     }
@@ -83,4 +73,15 @@ export class Timer extends EventTarget {
     public isTimerRunning(): boolean {
         return this.isRunning;
     }
+
+    protected configTime(timeString: string) {
+        const [minutes, seconds] = timeString.split(":").map(Number);
+        if (isNaN(minutes) || isNaN(seconds)) {
+            throw new Error("Invalid time format. Use 'MMM:SS'");
+        }
+    
+        this.initialSeconds = minutes * 60 + seconds;
+        this.remainingSeconds = this.initialSeconds;
+    }
+
 }
