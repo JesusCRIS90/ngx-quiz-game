@@ -51,7 +51,9 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "baseHref": "/ngx-quiz-game/",
+              "deployUrl": "/ngx-quiz-game/"
             },
             "development": {
               "optimization": false,
