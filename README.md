@@ -6,7 +6,10 @@ This is is re-make version from previous version built on React
 ## ✨ About the Project
 This project was created as a way to improve my knowledge of Angular and TypeScript asl well as a project to test custom libraries, focusing on component-based UI design, state management, and API integration. The game fetches trivia questions dynamically using the Open Trivia DB API, allowing for a variety of topics and difficulty levels.
 
-A side-goal of the project it was to test a custom library under a more realistic project. If you are interested on it. You can identify under name of @beexy.
+Beyond being just a landing page, this project has served as a testing ground for several experiments:  
+* 🔄 **Framework Porting**: Originally made with React, now completely reimplemented with Angular.  
+* 📦 **Custom Libraries (@beexy)**: A way to test my own libraries in more realistic, production-like scenarios. *(More news soon!)*  
+* ⚙️ **Automation & Deployment**: Includes an experimental **bash script (deploy.sh)** to automate the deployment process toward github-pages.  
 
 ## 🚀 Features
 
@@ -15,7 +18,7 @@ A side-goal of the project it was to test a custom library under a more realisti
 * ✅ Score tracking system
 * ✅ Clean and responsive UI with Angular
 
-🔗 Live Demo: <a href="https://jesuscris90.github.io/Quiz-Game/" target="_blank">Live Demo</a>
+🔗 Live Demo (Angular): <a href="https://jesuscris90.github.io/ngx-quiz-game/" target="_blank">Live Demo</a>
 <br>
 🔗 Previous Version Live Demo (React): <a href="https://jesuscris90.github.io/Quiz-Game/" target="_blank">Live Demo</a>
 
