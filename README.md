@@ -18,9 +18,9 @@ Beyond being just a landing page, this project has served as a testing ground fo
 * ✅ Score tracking system
 * ✅ Clean and responsive UI with Angular
 
-🔗 Live Demo (Angular): <a href="https://jesuscris90.github.io/ngx-quiz-game/" target="_blank">Live Demo</a>
+🔗 Live Demo (Angular): <a href="https://jesuscris90.github.io/ngx-quiz-game/" target="_blank" rel="noopener noreferrer">Live Demo</a>
 <br>
-🔗 Previous Version Live Demo (React): <a href="https://jesuscris90.github.io/Quiz-Game/" target="_blank">Live Demo</a>
+🔗 Previous Version Live Demo (React): <a href="https://jesuscris90.github.io/Quiz-Game/" target="_blank" rel="noopener noreferrer">Live Demo</a>
 
 Feel free to explore, contribute, or suggest improvements! 🚀
 
