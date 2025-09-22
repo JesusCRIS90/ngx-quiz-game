@@ -78,7 +78,8 @@ export default class SelectionPageComponent {
 
     if (data !== null) {
 
-      this.rootPath = getRightPath(data.selectionPage.rootPath);
+      this.rootPath = data.selectionPage.rootPath;
+      // this.rootPath = "https://raw.githubusercontent.com/JesusCRIS90/jc-risquez-cdn/main/quiz-game/categories";
       this.categories = data.selectionPage.categories;
       this.difficulty = data.selectionPage.difficultyLevel;
       this.type = data.selectionPage.type;
@@ -143,7 +144,7 @@ export default class SelectionPageComponent {
           this.modalService.open<ErrorMessage>(
             {
               component: CommonErrorWindowComponent,
-              data: { message: `It seems that your Quiz Configurations is not valid. \n Please choose another one.` } as ErrorMessage
+              data: { message: `It seems that your Quiz Configurations is not valid. \n Please choose another one.` }
             });
           this.disableBtn.set(false);
         }
@@ -153,7 +154,7 @@ export default class SelectionPageComponent {
         this.modalService.open<ErrorMessage>(
           {
             component: CommonErrorWindowComponent,
-            data: { message: `Error Type:${err.statusText}.\nMessage:${err.message}` } as ErrorMessage
+            data: { message: `Error Type:${err.statusText}.\nMessage:${err.message}` }
           });
         this.disableBtn.set(false);
 

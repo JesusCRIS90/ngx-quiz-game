@@ -1,6 +1,6 @@
 {
     "selectionPage":{
-        "rootPath": "assets/categories",
+        "rootPath": "https://raw.githubusercontent.com/JesusCRIS90/jc-risquez-cdn/main/quiz-game/categories",
         "categories":[
             {
                 "icon": "books",

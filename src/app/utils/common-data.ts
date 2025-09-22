@@ -1,7 +1,9 @@
 import { environment } from '../../environments/environment';
 
 // export const DATA_PATH = '/assets/data/app-data.json';
-export const DATA_PATH = `${environment.baseHref}/assets/data/app-data.json`;
+// export const DATA_PATH = `${environment.baseHref}/assets/data/app-data.json`;
+export const DATA_PATH = `https://raw.githubusercontent.com/JesusCRIS90/jc-risquez-cdn/refs/heads/main/quiz-game/data/app-data.json`;
+
 export const DATA_KEY = "AppKey";
 
 export const OPEN_TRIVIA_API = 'https://opentdb.com/api.php'
